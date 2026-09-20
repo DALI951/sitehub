@@ -29,6 +29,18 @@ OVERRIDES = {
     "litematic-studio": {"name": "Litematic Studio", "description": "Drop a .litematic file, import the build, place it block by block."},
     "streamhub": {"name": "StreamHub", "description": "Search-and-play streaming hub for topcinema series."},
     "tasktracker": {"name": "Task Tracker (PHP)", "description": "PHP account pages behind the Flutter staff task tracker."},
+    "tasktracker-demo": {"name": "Task Tracker Demo", "description": "Concept demo of the staff task tracker."},
+    "fish-tank": {"name": "Fish-Tank", "description": "Evolutionary AI sim — watch tiny brains learn to survive."},
+    "miniage": {"name": "MiniAge", "description": "RTS game demo — age up, build, fight."},
+    "neuralplay": {"name": "NeuralPlay", "description": "Watch neural networks learn in the browser."},
+    "bubble-sort": {"name": "Bubble Sort Lab", "description": "Sorting visualizer — see the algorithms move data."},
+    "sorting-lab": {"name": "Sorting Lab", "description": "Visual demos of sorting algorithms."},
+    "tj": {"name": "Trade Journal", "description": "Trading journal with calendar view."},
+    "tradingjournal": {"name": "Trading Journal", "description": "Trading journal & calendar — track your trades by day."},
+    "viddetect": {"name": "Viddetect", "description": "Detect what's on screen in a video — scene-by-scene content detection."},
+    "demos": {"name": "Demos", "description": "Six live project demos hosted under /demos."},
+    "mom-work": {"name": "Mom Work", "description": "Work helper app for Mom."},
+    "so-art": {"name": "So-Art", "description": "Quick artwork page — auto-detected, open to see."},
 }
 
 def creds():
@@ -77,11 +89,24 @@ def main():
         sftp.put(localpath=os.path.join(base, rel), remotepath=remote)
         print("  put", rel)
 
+    def rm_rf(sftp, path):
+        try:
+            st = sftp.stat(path)
+        except IOError:
+            return
+        if stat.S_ISDIR(st.st_mode):
+            for item in sftp.listdir(path):
+                rm_rf(sftp, posixpath.join(path, item))
+            sftp.rmdir(path)
+        else:
+            sftp.remove(path)
+
     mkdirs(REMOTE)
     if not dry:
         # wipe old web assets so stale files never stick
         for item in sftp.listdir(REMOTE):
-            sftp.remove(posixpath.join(REMOTE, item))
+            if item not in ("." , ".."):
+                rm_rf(sftp, posixpath.join(REMOTE, item))
     files = walk_files(WWW)
     for rel, full in files:
         if dry:
