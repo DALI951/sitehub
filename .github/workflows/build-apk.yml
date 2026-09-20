@@ -1,0 +1,63 @@
+name: build-apk
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Use Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # gotcha (duoscore): legacy 'tools' package removed from new sdkmanager
+      - name: Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Sync web -> android
+        run: npx cap sync android
+
+      - name: chmod gradlew
+        run: chmod +x android/gradlew
+
+      - name: Build APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+
+      - name: Compute version
+        id: ver
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Release with APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VER="v${{ steps.ver.outputs.VERSION }}"
+          cp android/app/build/outputs/apk/debug/app-debug.apk "sitehub-$VER.apk"
+          gh release delete "$VER" --yes --repo "${{ github.repository }}" || true
+          gh release create "$VER" "sitehub-$VER.apk" \
+            --repo "${{ github.repository }}" \
+            --title "SiteHub $VER" \
+            --notes "Auto-built by GitHub Actions. Install the APK and every deployed site is one tap away — new deployments get detected automatically." \
+            --generate-notes

@@ -1,0 +1,19 @@
+{
+  "sites": [
+    { "name": "SiteHub", "host": "server", "url": "https://modali.powerpme.com/sitehub/", "description": "This app — every deployed site auto-detected in one place.", "order": 0 },
+    { "name": "Dali Portfolio", "host": "server", "url": "https://modali.powerpme.com/", "description": "Dark cinema portfolio sitting at the server root.", "order": 1 },
+    { "name": "DuoScore", "host": "server", "url": "https://modali.powerpme.com/score/", "description": "Two-player scorekeeper for phone matches — rounds, totals, win target, confetti party.", "order": 5 },
+    { "name": "Dekkan", "host": "server", "url": "https://modali.powerpme.com/dekkan/", "description": "Arabic small-shop kit: till, stock, debts, day reports — souk gold theme.", "order": 6 },
+    { "name": "RanimLife", "host": "server", "url": "https://modali.powerpme.com/ranimlife/", "description": "Person-OS for Ranim: Quran hifdh, school, focus, prayers, money.", "order": 7 },
+    { "name": "DaliDeck", "host": "server", "url": "https://modali.powerpme.com/dalideck/", "description": "Personal OS dashboard — tasks, notes, money, settings, sync.", "order": 8 },
+    { "name": "Synchro Diag", "host": "server", "url": "https://modali.powerpme.com/synchro-diag/", "description": "Adaptive diagnostic questionnaire for Dad's car rental company.", "order": 9 },
+    { "name": "Rabie Box", "host": "server", "url": "https://modali.powerpme.com/rabie/", "description": "No-pressure request box: what do you need?", "order": 10 },
+    { "name": "MC Status", "host": "server", "url": "https://modali.powerpme.com/mc-status/", "description": "Live Minecraft server status with join history.", "order": 11 },
+    { "name": "Company Site", "host": "server", "url": "https://modali.powerpme.com/company/", "description": "Generic trilingual company site template.", "order": 12 },
+    { "name": "Litematic Studio", "host": "server", "url": "https://modali.powerpme.com/litematic-studio/", "description": "Import .litematic builds and place them block by block.", "order": 13 },
+    { "name": "DaliDeck", "host": "github", "url": "https://dali951.github.io/DaliDeck/", "description": "DaliDeck on GitHub Pages (server copy above).", "order": 30 },
+    { "name": "DevKit-Online", "host": "github", "url": "https://dali951.github.io/DevKit-Online/", "description": "Online dev-tools kit: base64, hashes, case, JSON.", "order": 31 },
+    { "name": "Task Tracker", "host": "github", "url": "https://dali951.github.io/task-tracker/", "description": "Staff task tracker for Dad's company — Flutter web.", "order": 32 },
+    { "name": "Quran Grandma", "host": "github", "url": "https://dali951.github.io/quran-grandma/", "description": "Quran app for grandma with audio + APK.", "order": 33 }
+  ]
+}
